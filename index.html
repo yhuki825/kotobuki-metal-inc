@@ -1,0 +1,1204 @@
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>株式会社寿メタル | 金属部品のグローバル輸入代理店</title>
+
+  <!-- Google Fonts: Inter + Noto Sans JP -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Noto Sans JP', 'Inter', 'sans-serif'],
+            inter: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              dark:      '#080e1a',
+              navy:      '#0d1b2e',
+              steel:     '#1e3a5f',
+              gold:      '#c9922a',
+              goldlight: '#e8b84b',
+              goldpale:  '#f5d98a',
+              accent:    '#1a6fb5',
+              accentlt:  '#3b9edd',
+            }
+          },
+          backgroundImage: {
+            'metal-gradient': 'linear-gradient(135deg, #1a1a2e 0%, #16213e 40%, #0f3460 100%)',
+          },
+          animation: {
+            'float': 'float 6s ease-in-out infinite',
+            'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+            'shimmer': 'shimmer 2.5s linear infinite',
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-12px)' },
+            },
+            shimmer: {
+              '0%': { backgroundPosition: '-200% center' },
+              '100%': { backgroundPosition: '200% center' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* ========================================
+       グローバルスタイル
+    ======================================== */
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: #f8f9fc;
+      color: #1e293b;
+      font-family: 'Noto Sans JP', 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    /* ========================================
+       スクロールアニメーション
+    ======================================== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(36px);
+      transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-40px);
+      transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal-left.active {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    .reveal-right {
+      opacity: 0;
+      transform: translateX(40px);
+      transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal-right.active {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* ========================================
+       ヘッダー
+    ======================================== */
+    .header-scrolled {
+      background: rgba(8, 14, 26, 0.97) !important;
+      box-shadow: 0 1px 0 rgba(255,255,255,0.06), 0 4px 24px rgba(0,0,0,0.4);
+    }
+
+    /* ========================================
+       ゴールドシマーテキスト
+    ======================================== */
+    .gold-shimmer {
+      background: linear-gradient(
+        90deg,
+        #c9922a 0%,
+        #e8b84b 30%,
+        #f5d98a 50%,
+        #e8b84b 70%,
+        #c9922a 100%
+      );
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shimmer 3s linear infinite;
+    }
+
+    /* ========================================
+       ヒーローパーティクル
+    ======================================== */
+    #hero-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    /* ========================================
+       グラスモーフィズム
+    ======================================== */
+    .glass {
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .glass-light {
+      background: rgba(255, 255, 255, 0.72);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.6);
+    }
+
+    /* ========================================
+       セクション区切りの斜めライン
+    ======================================== */
+    .section-divider-bottom {
+      position: absolute;
+      bottom: -1px;
+      left: 0;
+      width: 100%;
+      overflow: hidden;
+      line-height: 0;
+    }
+    .section-divider-bottom svg {
+      display: block;
+      width: 100%;
+    }
+
+    /* ========================================
+       数値カウンターアニメーション
+    ======================================== */
+    .counter { transition: all 0.3s; }
+
+    /* ========================================
+       プロダクトカード
+    ======================================== */
+    .product-card {
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                  box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .product-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.12), 0 8px 20px rgba(201,146,42,0.08);
+    }
+    .product-card .card-img {
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .product-card:hover .card-img {
+      transform: scale(1.07);
+    }
+
+    /* ========================================
+       ナビゲーションアクティブライン
+    ======================================== */
+    .nav-link {
+      position: relative;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 1.5px;
+      background: linear-gradient(90deg, #c9922a, #e8b84b);
+      transition: width 0.3s ease;
+    }
+    .nav-link:hover::after { width: 100%; }
+
+    /* ========================================
+       ストレングスカード
+    ======================================== */
+    .strength-card {
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                  box-shadow 0.4s ease,
+                  background 0.3s ease;
+    }
+    .strength-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.08), 0 4px 16px rgba(201,146,42,0.1);
+    }
+
+    /* ========================================
+       プロセスタイムライン
+    ======================================== */
+    .process-line {
+      background: linear-gradient(180deg, #c9922a 0%, #1a6fb5 100%);
+    }
+
+    /* ========================================
+       テーブルスタイル
+    ======================================== */
+    .company-table tr {
+      transition: background 0.2s;
+    }
+    .company-table tr:hover td,
+    .company-table tr:hover th {
+      background: rgba(255,255,255,0.03);
+    }
+
+    /* ========================================
+       カスタムスクロールバー
+    ======================================== */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #080e1a; }
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(180deg, #c9922a, #1a6fb5);
+      border-radius: 3px;
+    }
+
+    /* ========================================
+       ボタンホバー
+    ======================================== */
+    .btn-primary {
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .btn-primary::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+      transition: left 0.5s ease;
+    }
+    .btn-primary:hover::before { left: 100%; }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(201,146,42,0.4);
+    }
+
+    .btn-secondary {
+      transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+    }
+    .btn-secondary:hover {
+      transform: translateY(-2px);
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(232,184,75,0.5);
+    }
+
+    /* ========================================
+       ドットグリッド背景
+    ======================================== */
+    .dot-grid {
+      background-image: radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px);
+      background-size: 28px 28px;
+    }
+
+    /* ========================================
+       ゴールドライン区切り
+    ======================================== */
+    .gold-line {
+      height: 3px;
+      background: linear-gradient(90deg, transparent, #c9922a, #e8b84b, #c9922a, transparent);
+      border-radius: 2px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- ============================================================
+       ヘッダーナビゲーション
+  ============================================================ -->
+  <header id="main-header" class="fixed top-0 left-0 w-full z-50 transition-all duration-500"
+          style="background: rgba(8,14,26,0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.06);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-[72px] flex items-center justify-between">
+
+      <!-- ロゴ -->
+      <a href="#hero" class="flex items-center gap-3 group">
+        <div class="relative w-10 h-10 flex items-center justify-center rounded-lg overflow-hidden"
+             style="background: linear-gradient(135deg, #c9922a 0%, #e8b84b 50%, #c9922a 100%);">
+          <span class="font-black text-white text-xl font-inter leading-none">K</span>
+          <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+               style="background: linear-gradient(135deg, #e8b84b, #f5d98a, #e8b84b);"></div>
+        </div>
+        <div>
+          <span class="text-[17px] font-bold tracking-wider text-white block leading-none">株式会社寿メタル</span>
+          <span class="text-[8px] text-slate-400 tracking-[0.2em] block mt-1 uppercase font-inter">KOTOBUKI METAL CO., LTD.</span>
+        </div>
+      </a>
+
+      <!-- デスクトップナビゲーション -->
+      <nav class="hidden md:flex items-center gap-8 text-[13px] font-medium">
+        <a href="#hero"     class="nav-link text-slate-300 hover:text-white transition-colors">トップ</a>
+        <a href="#about"    class="nav-link text-slate-300 hover:text-white transition-colors">私たちの強み</a>
+        <a href="#products" class="nav-link text-slate-300 hover:text-white transition-colors">取扱製品</a>
+        <a href="#process"  class="nav-link text-slate-300 hover:text-white transition-colors">調達プロセス</a>
+        <a href="#company"  class="nav-link text-slate-300 hover:text-white transition-colors">会社概要</a>
+        <!-- 
+        <a href="#company"
+           class="btn-primary ml-2 px-5 py-2 rounded-lg text-[13px] font-semibold text-white"
+           style="background: linear-gradient(135deg, #c9922a, #e8b84b);">
+          お問い合わせ
+        </a>
+        -->
+      </nav>
+
+      <!-- モバイルメニューボタン -->
+      <button id="mobile-menu-btn" class="md:hidden text-white p-2 rounded-lg hover:bg-white/10 transition-colors focus:outline-none" aria-label="メニュー">
+        <svg id="hamburger-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+        </svg>
+        <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- モバイルナビゲーション -->
+    <div id="mobile-menu" class="hidden md:hidden"
+         style="background: rgba(8,14,26,0.98); border-top: 1px solid rgba(255,255,255,0.06);">
+      <div class="px-4 py-6 space-y-1">
+        <a href="#hero"     class="block px-4 py-3 rounded-lg text-slate-300 hover:text-white hover:bg-white/06 transition-colors text-[15px]">トップ</a>
+        <a href="#about"    class="block px-4 py-3 rounded-lg text-slate-300 hover:text-white hover:bg-white/06 transition-colors text-[15px]">私たちの強み</a>
+        <a href="#products" class="block px-4 py-3 rounded-lg text-slate-300 hover:text-white hover:bg-white/06 transition-colors text-[15px]">取扱製品</a>
+        <a href="#process"  class="block px-4 py-3 rounded-lg text-slate-300 hover:text-white hover:bg-white/06 transition-colors text-[15px]">調達プロセス</a>
+        <a href="#company"  class="block px-4 py-3 rounded-lg text-slate-300 hover:text-white hover:bg-white/06 transition-colors text-[15px]">会社概要</a>
+      </div>
+    </div>
+  </header>
+
+
+  <!-- ============================================================
+       ヒーローセクション
+  ============================================================ -->
+  <section id="hero" class="relative min-h-screen flex items-center pt-[72px] overflow-hidden"
+           style="background: linear-gradient(135deg, #080e1a 0%, #0d1b2e 45%, #0f2a4a 100%);">
+
+    <!-- パーティクルキャンバス -->
+    <canvas id="hero-canvas"></canvas>
+
+    <!-- 背景グロー -->
+    <div class="absolute top-1/3 right-1/4 w-[600px] h-[600px] rounded-full pointer-events-none"
+         style="background: radial-gradient(circle, rgba(201,146,42,0.07) 0%, transparent 70%); filter: blur(40px);"></div>
+    <div class="absolute bottom-1/4 left-1/4 w-[500px] h-[500px] rounded-full pointer-events-none"
+         style="background: radial-gradient(circle, rgba(26,111,181,0.1) 0%, transparent 70%); filter: blur(40px);"></div>
+
+    <!-- ドットグリッド -->
+    <div class="absolute inset-0 dot-grid opacity-40 pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10 w-full">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+
+        <!-- キャッチコピーエリア -->
+        <div class="lg:col-span-7 space-y-7 text-center lg:text-left">
+
+          <!-- バッジ -->
+          <div class="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border text-sm font-semibold tracking-wide"
+               style="background: rgba(201,146,42,0.1); border-color: rgba(201,146,42,0.3); color: #e8b84b;">
+            <span class="w-2 h-2 rounded-full animate-pulse" style="background: #e8b84b;"></span>
+            金属部品輸入のスペシャリスト
+          </div>
+
+          <!-- メインヘッドライン -->
+          <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-[64px] font-black text-white leading-[1.1] tracking-tight">
+            世界水準の品質を、<br>
+            <span class="gold-shimmer">日本のモノづくりへ。</span>
+          </h1>
+
+          <!-- サブコピー -->
+          <p class="text-slate-300 text-base sm:text-lg leading-[1.9] max-w-2xl mx-auto lg:mx-0 font-light">
+            株式会社寿メタルは、世界中の高度な技術力を持つメーカーと提携し、
+            厳選された金属部品を日本の産業界へ安定的かつスピーディにお届けする輸入代理店です。
+            お客様の調達課題を、グローバルな視点と確かな品質マネジメントで解決します。
+          </p>
+
+          <!-- CTAボタン -->
+          <div class="pt-2 flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
+            <a href="#about"
+               class="btn-primary px-8 py-4 rounded-xl text-white font-semibold text-[15px] text-center"
+               style="background: linear-gradient(135deg, #c9922a 0%, #e8b84b 100%);">
+              当社の強みを知る
+            </a>
+            <a href="#products"
+               class="btn-secondary px-8 py-4 rounded-xl text-slate-200 font-semibold text-[15px] text-center border"
+               style="background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.15);">
+              取扱製品の一覧
+            </a>
+          </div>
+
+          <!-- 信頼指標 -->
+          <div class="pt-4 flex flex-wrap justify-center lg:justify-start gap-6 text-sm text-slate-400">
+            <div class="flex items-center gap-2">
+              <svg class="w-4 h-4" style="color: #e8b84b;" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              <span>提携工場 50社以上</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <svg class="w-4 h-4" style="color: #e8b84b;" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              <span>不良率 0.02%以下</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <svg class="w-4 h-4" style="color: #e8b84b;" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+              </svg>
+              <span>年間 1,200件超の実績</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ヒーロービジュアル -->
+        <div class="lg:col-span-5 relative">
+          <div class="relative mx-auto max-w-[460px] lg:max-w-none">
+
+            <!-- 背後のグロー -->
+            <div class="absolute -inset-4 rounded-3xl opacity-40 pointer-events-none"
+                 style="background: linear-gradient(135deg, rgba(201,146,42,0.3), rgba(26,111,181,0.3)); filter: blur(24px);"></div>
+
+            <!-- 画像コンテナ -->
+            <div class="relative rounded-2xl overflow-hidden shadow-2xl"
+                 style="border: 1px solid rgba(255,255,255,0.1);">
+              <img
+                src="https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=800&q=80"
+                alt="金属部品のクローズアップ"
+                class="w-full h-[320px] sm:h-[420px] object-cover"
+                style="filter: brightness(0.85) contrast(1.1) saturate(0.9);"
+                onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80';"
+              />
+              <!-- グラデーションオーバーレイ -->
+              <div class="absolute inset-0"
+                   style="background: linear-gradient(to top, rgba(8,14,26,0.85) 0%, rgba(8,14,26,0.2) 50%, transparent 100%);"></div>
+
+              <!-- インフォボックス -->
+              <div class="absolute bottom-5 left-5 right-5 glass rounded-xl p-4">
+                <p class="text-[10px] font-bold tracking-[0.2em] uppercase mb-1" style="color: #e8b84b;">GLOBAL PROCUREMENT</p>
+                <p class="text-[13px] text-white font-medium leading-snug">
+                  徹底した現地視察と品質検証で選ばれた一流のサプライヤーネットワーク
+                </p>
+              </div>
+            </div>
+
+            <!-- フローティングバッジ -->
+            <div class="absolute -top-4 -right-4 glass rounded-xl px-4 py-3 text-center shadow-xl">
+              <p class="text-[10px] text-slate-400 tracking-wider">品質保証</p>
+              <p class="text-2xl font-black font-inter" style="color: #e8b84b;">ISO</p>
+              <p class="text-[10px] text-slate-400">準拠体制</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- 下部の波形区切り -->
+    <div class="section-divider-bottom">
+      <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+        <path d="M0,40 C360,80 1080,0 1440,40 L1440,60 L0,60 Z" fill="#ffffff"/>
+      </svg>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       私たちの強み (About & Strengths) セクション
+  ============================================================ -->
+  <section id="about" class="py-28 bg-white relative overflow-hidden">
+
+    <!-- 背景装飾 -->
+    <div class="absolute top-0 right-0 w-[500px] h-[500px] rounded-full pointer-events-none opacity-30"
+         style="background: radial-gradient(circle, rgba(201,146,42,0.08) 0%, transparent 70%); filter: blur(60px);"></div>
+    <div class="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full pointer-events-none opacity-20"
+         style="background: radial-gradient(circle, rgba(26,111,181,0.1) 0%, transparent 70%); filter: blur(60px);"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+
+      <!-- セクションタイトル -->
+      <div class="text-center max-w-3xl mx-auto mb-20 reveal">
+        <span class="inline-block text-[11px] font-bold tracking-[0.3em] uppercase px-4 py-1.5 rounded-full mb-4"
+              style="color: #c9922a; background: rgba(201,146,42,0.1); border: 1px solid rgba(201,146,42,0.2);">
+          OUR VALUE
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 mt-3 tracking-wide leading-tight">
+          日本のモノづくりに、<br class="sm:hidden">新たな調達の可能性を
+        </h2>
+        <div class="gold-line w-20 mx-auto mt-5"></div>
+        <p class="text-slate-500 mt-6 leading-[1.9] text-[15px]">
+          株式会社寿メタルは、単なる部品の「輸入仲介」ではありません。
+          海外現地メーカーとの密接な連携と、日本クオリティを完璧に熟知した体制で、
+          確実なビジネス拡大を強力にサポートします。
+        </p>
+      </div>
+
+      <!-- 3つの強み -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+        <!-- 強み 1 -->
+        <div class="strength-card bg-white rounded-2xl p-8 border border-slate-100 shadow-sm reveal group"
+             style="transition-delay: 0ms;">
+          <div class="w-14 h-14 rounded-2xl flex items-center justify-center mb-6 transition-all duration-300 group-hover:scale-110"
+               style="background: linear-gradient(135deg, rgba(201,146,42,0.12), rgba(201,146,42,0.06));">
+            <svg class="w-7 h-7" style="color: #c9922a;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                    d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 002 2h1.5A2.5 2.5 0 0019 9.5V8a2 2 0 00-2-2h-3.17M12 21a9 9 0 100-18 9 9 0 000 18z"/>
+            </svg>
+          </div>
+          <div class="w-8 h-0.5 mb-4 rounded" style="background: linear-gradient(90deg, #c9922a, #e8b84b);"></div>
+          <h3 class="text-[18px] font-bold text-slate-900 mb-3 tracking-wide">グローバル調達網の最適化</h3>
+          <p class="text-slate-500 text-[14px] leading-[1.9]">
+            長年にわたり築き上げたアジア・ヨーロッパ等の信頼できるトップサプライヤーと直接取引。
+            中間マージンをカットし、競争力のある価格設定と安定供給を実現します。
+          </p>
+        </div>
+
+        <!-- 強み 2 -->
+        <div class="strength-card bg-white rounded-2xl p-8 border border-slate-100 shadow-sm reveal group"
+             style="transition-delay: 120ms;">
+          <div class="w-14 h-14 rounded-2xl flex items-center justify-center mb-6 transition-all duration-300 group-hover:scale-110"
+               style="background: linear-gradient(135deg, rgba(201,146,42,0.12), rgba(201,146,42,0.06));">
+            <svg class="w-7 h-7" style="color: #c9922a;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+            </svg>
+          </div>
+          <div class="w-8 h-0.5 mb-4 rounded" style="background: linear-gradient(90deg, #c9922a, #e8b84b);"></div>
+          <h3 class="text-[18px] font-bold text-slate-900 mb-3 tracking-wide">日本基準の徹底検品</h3>
+          <p class="text-slate-500 text-[14px] leading-[1.9]">
+            図面通りの厳格な寸法測定や、各種材料の品質証明書（ミルシート）の発行、
+            出荷前ダブルチェック体制を完備。海外製部品への不安を、安心の品質でお応えします。
+          </p>
+        </div>
+
+        <!-- 強み 3 -->
+        <div class="strength-card bg-white rounded-2xl p-8 border border-slate-100 shadow-sm reveal group"
+             style="transition-delay: 240ms;">
+          <div class="w-14 h-14 rounded-2xl flex items-center justify-center mb-6 transition-all duration-300 group-hover:scale-110"
+               style="background: linear-gradient(135deg, rgba(201,146,42,0.12), rgba(201,146,42,0.06));">
+            <svg class="w-7 h-7" style="color: #c9922a;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+            </svg>
+          </div>
+          <div class="w-8 h-0.5 mb-4 rounded" style="background: linear-gradient(90deg, #c9922a, #e8b84b);"></div>
+          <h3 class="text-[18px] font-bold text-slate-900 mb-3 tracking-wide">多品種・小ロット・短納期</h3>
+          <p class="text-slate-500 text-[14px] leading-[1.9]">
+            お客様の開発ステージに応じた小ロットのご要望や、試作開発部品の緊急輸入にもフレキシブルに対応。
+            独自の国際物流ルートを構築し、リードタイムを最短化します。
+          </p>
+        </div>
+
+      </div>
+
+      <!-- 数字で見る信頼 -->
+      <div class="mt-20 rounded-3xl overflow-hidden reveal"
+           style="background: linear-gradient(135deg, #080e1a 0%, #0d1b2e 60%, #0f2a4a 100%); border: 1px solid rgba(255,255,255,0.07);">
+        <div class="relative p-10 sm:p-14">
+          <!-- ドットグリッド -->
+          <div class="absolute inset-0 dot-grid opacity-50 pointer-events-none"></div>
+          <!-- グロー -->
+          <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[200px] pointer-events-none"
+               style="background: radial-gradient(ellipse, rgba(201,146,42,0.12) 0%, transparent 70%); filter: blur(30px);"></div>
+
+          <div class="relative z-10">
+            <p class="text-center text-[11px] font-bold tracking-[0.3em] uppercase mb-10"
+               style="color: #e8b84b;">数字で見る信頼実績</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-0 text-center">
+
+              <div class="md:border-r md:border-white/10 px-6">
+                <p class="text-slate-400 text-[12px] font-semibold tracking-widest mb-2">世界提携工場数</p>
+                <p class="font-black font-inter leading-none mb-2">
+                  <span class="text-5xl sm:text-6xl gold-shimmer">50</span>
+                  <span class="text-2xl text-slate-300 ml-1">社以上</span>
+                </p>
+                <p class="text-[12px] text-slate-500">アジア・欧州を含む強固なサプライチェーン</p>
+              </div>
+
+              <div class="md:border-r md:border-white/10 px-6 border-y md:border-y-0 border-white/10 py-8 md:py-0">
+                <p class="text-slate-400 text-[12px] font-semibold tracking-widest mb-2">年間輸入取扱ロット</p>
+                <p class="font-black font-inter leading-none mb-2">
+                  <span class="text-5xl sm:text-6xl gold-shimmer">1,200</span>
+                  <span class="text-2xl text-slate-300 ml-1">件超</span>
+                </p>
+                <p class="text-[12px] text-slate-500">大小さまざまな規模のニーズに即応</p>
+              </div>
+
+              <div class="px-6">
+                <p class="text-slate-400 text-[12px] font-semibold tracking-widest mb-2">納品不良率</p>
+                <p class="font-black font-inter leading-none mb-2">
+                  <span class="text-5xl sm:text-6xl gold-shimmer">0.02</span>
+                  <span class="text-2xl text-slate-300 ml-1">%以下</span>
+                </p>
+                <p class="text-[12px] text-slate-500">厳格な事前検査による高度な安定性</p>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       取扱製品 (Products) セクション
+  ============================================================ -->
+  <section id="products" class="py-28 relative overflow-hidden"
+           style="background: linear-gradient(180deg, #f1f5f9 0%, #f8f9fc 100%);">
+
+    <!-- 背景装飾 -->
+    <div class="absolute inset-0 pointer-events-none opacity-40"
+         style="background-image: linear-gradient(rgba(201,146,42,0.04) 1px, transparent 1px),
+                                  linear-gradient(90deg, rgba(201,146,42,0.04) 1px, transparent 1px);
+                background-size: 60px 60px;"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+
+      <!-- セクションタイトル -->
+      <div class="text-center max-w-3xl mx-auto mb-20 reveal">
+        <span class="inline-block text-[11px] font-bold tracking-[0.3em] uppercase px-4 py-1.5 rounded-full mb-4"
+              style="color: #c9922a; background: rgba(201,146,42,0.1); border: 1px solid rgba(201,146,42,0.2);">
+          OUR PRODUCTS
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 mt-3 tracking-wide">
+          高品質・高精度な各種金属加工部品
+        </h2>
+        <div class="gold-line w-20 mx-auto mt-5"></div>
+        <p class="text-slate-500 mt-6 leading-[1.9] text-[15px]">
+          幅広い加工技術を有する海外メーカーを網羅し、自動車部品、産業機械部品、
+          精密電気機器、建築金物まで多様な用途に適合する金属部品をお届けします。
+        </p>
+      </div>
+
+      <!-- 製品カードグリッド -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+        <!-- 製品 1 -->
+        <div class="product-card bg-white rounded-2xl overflow-hidden shadow-md border border-slate-100 reveal"
+             style="transition-delay: 0ms;">
+          <div class="h-52 overflow-hidden relative">
+            <img
+              src="https://images.unsplash.com/photo-1537462715879-360eeb61a0bc?auto=format&fit=crop&w=600&q=80"
+              alt="精密削り出し金属部品"
+              class="card-img w-full h-full object-cover"
+              style="filter: brightness(0.9) contrast(1.05);"
+              onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=600&q=80';"
+            />
+            <div class="absolute inset-0"
+                 style="background: linear-gradient(to top, rgba(8,14,26,0.7) 0%, transparent 60%);"></div>
+            <span class="absolute bottom-4 left-4 px-3 py-1 rounded-md text-white text-[11px] font-bold tracking-wide"
+                  style="background: linear-gradient(135deg, #c9922a, #e8b84b);">
+              旋盤・マシニング
+            </span>
+          </div>
+          <div class="p-7">
+            <h3 class="text-[17px] font-bold text-slate-900 mb-3 tracking-wide">精密切削・削り出し部品</h3>
+            <p class="text-slate-500 text-[13px] leading-[1.9] mb-5">
+              ミクロン単位の超精密加工が可能なマシニングセンタやCNC旋盤による高精度切削部品。
+              チタン、ステンレス、真鍮、特殊鋼など難削材も柔軟に対応します。
+            </p>
+            <div class="border-t border-slate-100 pt-4 grid grid-cols-2 gap-2 text-[11px] text-slate-400 font-medium">
+              <span class="flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full" style="background:#c9922a;"></span>
+                精密電気機器・医療機器
+              </span>
+              <span class="flex items-center gap-1 justify-end">
+                <span class="w-1.5 h-1.5 rounded-full" style="background:#1a6fb5;"></span>
+                公差：±0.005mm〜
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 製品 2 -->
+        <div class="product-card bg-white rounded-2xl overflow-hidden shadow-md border border-slate-100 reveal"
+             style="transition-delay: 120ms;">
+          <div class="h-52 overflow-hidden relative">
+            <img
+              src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=600&q=80"
+              alt="鋳造鍛造金属部品"
+              class="card-img w-full h-full object-cover"
+              style="filter: brightness(0.9) contrast(1.05);"
+              onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=600&q=80';"
+            />
+            <div class="absolute inset-0"
+                 style="background: linear-gradient(to top, rgba(8,14,26,0.7) 0%, transparent 60%);"></div>
+            <span class="absolute bottom-4 left-4 px-3 py-1 rounded-md text-white text-[11px] font-bold tracking-wide"
+                  style="background: linear-gradient(135deg, #c9922a, #e8b84b);">
+              ロストワックス・ダイカスト
+            </span>
+          </div>
+          <div class="p-7">
+            <h3 class="text-[17px] font-bold text-slate-900 mb-3 tracking-wide">鋳造・鍛造・ロストワックス部品</h3>
+            <p class="text-slate-500 text-[13px] leading-[1.9] mb-5">
+              複雑な形状を美しく再現し、強度を保つロストワックスや各種ダイカスト部品。
+              金型製作から後加工の切削、表面処理まで一貫でサポートいたします。
+            </p>
+            <div class="border-t border-slate-100 pt-4 grid grid-cols-2 gap-2 text-[11px] text-slate-400 font-medium">
+              <span class="flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full" style="background:#c9922a;"></span>
+                重工業機械・自動車足回り
+              </span>
+              <span class="flex items-center gap-1 justify-end">
+                <span class="w-1.5 h-1.5 rounded-full" style="background:#1a6fb5;"></span>
+                アルミ・銅・ステンレス他
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 製品 3 -->
+        <div class="product-card bg-white rounded-2xl overflow-hidden shadow-md border border-slate-100 reveal"
+             style="transition-delay: 240ms;">
+          <div class="h-52 overflow-hidden relative">
+            <img
+              src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=600&q=80"
+              alt="プレス板金部品"
+              class="card-img w-full h-full object-cover"
+              style="filter: brightness(0.9) contrast(1.05);"
+              onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=600&q=80';"
+            />
+            <div class="absolute inset-0"
+                 style="background: linear-gradient(to top, rgba(8,14,26,0.7) 0%, transparent 60%);"></div>
+            <span class="absolute bottom-4 left-4 px-3 py-1 rounded-md text-white text-[11px] font-bold tracking-wide"
+                  style="background: linear-gradient(135deg, #c9922a, #e8b84b);">
+              板金・深絞り・圧造
+            </span>
+          </div>
+          <div class="p-7">
+            <h3 class="text-[17px] font-bold text-slate-900 mb-3 tracking-wide">プレス加工・ヘッダー（冷間圧造）部品</h3>
+            <p class="text-slate-500 text-[13px] leading-[1.9] mb-5">
+              大量生産において最高のコストメリットを発揮する冷間ヘッダー部品や、
+              複雑な深絞りを含むプレス加工。高精度金型の設計技術により、コストダウンを実現。
+            </p>
+            <div class="border-t border-slate-100 pt-4 grid grid-cols-2 gap-2 text-[11px] text-slate-400 font-medium">
+              <span class="flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full" style="background:#c9922a;"></span>
+                締結用特殊ネジ・車載ブラケット
+              </span>
+              <span class="flex items-center gap-1 justify-end">
+                <span class="w-1.5 h-1.5 rounded-full" style="background:#1a6fb5;"></span>
+                小ロット試作〜大ロット量産
+              </span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       調達プロセス (Process) セクション
+  ============================================================ -->
+  <section id="process" class="py-28 bg-white relative overflow-hidden">
+
+    <!-- 背景装飾 -->
+    <div class="absolute top-0 left-0 w-full h-full pointer-events-none opacity-30"
+         style="background: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(201,146,42,0.06) 0%, transparent 100%);"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+
+      <!-- セクションタイトル -->
+      <div class="text-center max-w-3xl mx-auto mb-20 reveal">
+        <span class="inline-block text-[11px] font-bold tracking-[0.3em] uppercase px-4 py-1.5 rounded-full mb-4"
+              style="color: #c9922a; background: rgba(201,146,42,0.1); border: 1px solid rgba(201,146,42,0.2);">
+          PROCUREMENT PROCESS
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-bold text-slate-900 mt-3 tracking-wide">
+          納品までのスムーズな調達の流れ
+        </h2>
+        <div class="gold-line w-20 mx-auto mt-5"></div>
+        <p class="text-slate-500 mt-6 leading-[1.9] text-[15px]">
+          図面をお預かりしてから、最適なメーカーの選定、厳しい試作・品質検証、
+          物流手配にいたるまで、株式会社寿メタルが責任を持ってワンストップで管理します。
+        </p>
+      </div>
+
+      <!-- プロセスステップ -->
+      <div class="relative max-w-4xl mx-auto">
+
+        <!-- 中央縦ライン（デスクトップ） -->
+        <div class="hidden lg:block absolute left-1/2 top-0 bottom-0 w-px -translate-x-1/2 process-line opacity-30"></div>
+
+        <div class="space-y-16">
+
+          <!-- STEP 01 -->
+          <div class="flex flex-col lg:flex-row items-center gap-8 reveal">
+            <div class="flex-1 lg:text-left order-2 lg:order-1">
+              <div class="inline-block lg:text-left">
+                <span class="text-[11px] font-bold tracking-[0.25em] uppercase" style="color: #c9922a;">STEP 01</span>
+                <h3 class="text-[20px] font-bold text-slate-900 mt-1 mb-3 tracking-wide">図面・仕様のヒアリング</h3>
+                <p class="text-slate-500 text-[14px] leading-[1.9] max-w-sm lg:ml-auto">
+                  ご希望の金属部品の図面（2D/3D）、想定数量、材質、表面処理、公差、
+                  希望納期、想定ターゲットコストをお伺いします。
+                  難度の高い設計変更やコスト低減案のご相談も歓迎です。
+                </p>
+              </div>
+            </div>
+            <!-- バッジ -->
+            <div class="order-1 lg:order-2 w-14 h-14 rounded-full flex items-center justify-center text-white font-black text-lg font-inter shrink-0 relative z-10 shadow-lg"
+                 style="background: linear-gradient(135deg, #c9922a, #e8b84b); border: 3px solid white;">
+              1
+            </div>
+            <div class="flex-1 order-3 hidden lg:block"></div>
+          </div>
+
+          <!-- STEP 02 -->
+          <div class="flex flex-col lg:flex-row items-center gap-8 reveal">
+            <div class="flex-1 hidden lg:block order-1"></div>
+            <!-- バッジ -->
+            <div class="order-1 lg:order-2 w-14 h-14 rounded-full flex items-center justify-center text-white font-black text-lg font-inter shrink-0 relative z-10 shadow-lg"
+                 style="background: linear-gradient(135deg, #1a6fb5, #3b9edd); border: 3px solid white;">
+              2
+            </div>
+            <div class="flex-1 order-2 lg:order-3">
+              <span class="text-[11px] font-bold tracking-[0.25em] uppercase" style="color: #1a6fb5;">STEP 02</span>
+              <h3 class="text-[20px] font-bold text-slate-900 mt-1 mb-3 tracking-wide">海外サプライヤー選定 &amp; 御見積</h3>
+              <p class="text-slate-500 text-[14px] leading-[1.9] max-w-sm">
+                お預かりした仕様に基づき、世界各国に擁する提携工場から最適な加工技術・製造設備を有する
+                サプライヤーをスクリーニング。最もコストパフォーマンスに優れた御見積をご提案します。
+              </p>
+            </div>
+          </div>
+
+          <!-- STEP 03 -->
+          <div class="flex flex-col lg:flex-row items-center gap-8 reveal">
+            <div class="flex-1 lg:text-right order-2 lg:order-1">
+              <div class="inline-block lg:text-left">
+                <span class="text-[11px] font-bold tracking-[0.25em] uppercase" style="color: #c9922a;">STEP 03</span>
+                <h3 class="text-[20px] font-bold text-slate-900 mt-1 mb-3 tracking-wide">試作サンプルの製作・承認</h3>
+                <p class="text-slate-500 text-[14px] leading-[1.9] max-w-sm lg:ml-auto">
+                  まずは量産前の試作サンプルを作成します。出来上がったサンプルは寿メタルの検品、
+                  およびお客様での評価を経て、100%基準を満たしていることを徹底的に検証していただきます。
+                </p>
+              </div>
+            </div>
+            <!-- バッジ -->
+            <div class="order-1 lg:order-2 w-14 h-14 rounded-full flex items-center justify-center text-white font-black text-lg font-inter shrink-0 relative z-10 shadow-lg"
+                 style="background: linear-gradient(135deg, #c9922a, #e8b84b); border: 3px solid white;">
+              3
+            </div>
+            <div class="flex-1 order-3 hidden lg:block"></div>
+          </div>
+
+          <!-- STEP 04 -->
+          <div class="flex flex-col lg:flex-row items-center gap-8 reveal">
+            <div class="flex-1 hidden lg:block order-1"></div>
+            <!-- バッジ -->
+            <div class="order-1 lg:order-2 w-14 h-14 rounded-full flex items-center justify-center text-white font-black text-lg font-inter shrink-0 relative z-10 shadow-lg"
+                 style="background: linear-gradient(135deg, #1a6fb5, #3b9edd); border: 3px solid white;">
+              4
+            </div>
+            <div class="flex-1 order-2 lg:order-3">
+              <span class="text-[11px] font-bold tracking-[0.25em] uppercase" style="color: #1a6fb5;">STEP 04</span>
+              <h3 class="text-[20px] font-bold text-slate-900 mt-1 mb-3 tracking-wide">本生産・輸入・国内デリバリー</h3>
+              <p class="text-slate-500 text-[14px] leading-[1.9] max-w-sm">
+                サンプル承認後、本生産を開始。現地出荷検査と国内入荷時の厳格なダブル検査を経て、
+                ご指定の日本国内の拠点へ納品いたします。コンテナ輸送や航空便、
+                柔軟な物流ネットワークでお応えします。
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       会社概要 (Company Profile) セクション
+  ============================================================ -->
+  <section id="company" class="py-28 relative overflow-hidden"
+           style="background: linear-gradient(135deg, #080e1a 0%, #0d1b2e 50%, #0f2a4a 100%);">
+
+    <!-- 背景装飾 -->
+    <div class="absolute inset-0 dot-grid opacity-30 pointer-events-none"></div>
+    <div class="absolute top-0 right-0 w-[600px] h-[600px] rounded-full pointer-events-none"
+         style="background: radial-gradient(circle, rgba(201,146,42,0.06) 0%, transparent 70%); filter: blur(60px);"></div>
+    <div class="absolute bottom-0 left-0 w-[500px] h-[500px] rounded-full pointer-events-none"
+         style="background: radial-gradient(circle, rgba(26,111,181,0.08) 0%, transparent 70%); filter: blur(60px);"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+
+      <!-- セクションタイトル -->
+      <div class="text-center max-w-3xl mx-auto mb-20 reveal">
+        <span class="inline-block text-[11px] font-bold tracking-[0.3em] uppercase px-4 py-1.5 rounded-full mb-4"
+              style="color: #e8b84b; background: rgba(201,146,42,0.12); border: 1px solid rgba(201,146,42,0.25);">
+          COMPANY PROFILE
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-bold text-white mt-3 tracking-wide">会社概要</h2>
+        <div class="gold-line w-20 mx-auto mt-5"></div>
+      </div>
+
+      <!-- グリッド -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+
+        <!-- 代表メッセージ -->
+        <div class="lg:col-span-5 space-y-7 reveal-left">
+          <div class="pl-6 py-2" style="border-left: 3px solid #c9922a;">
+            <h3 class="text-xl sm:text-2xl font-bold text-white tracking-wide leading-snug">
+              確かな架け橋として、<br>日本のモノづくりの進化を後押しする。
+            </h3>
+          </div>
+          <p class="text-slate-300 text-[14px] leading-[1.9] font-light">
+            世界の技術は日々進化しています。私たちは、卓越した加工技術を持つ海外のパートナー企業と、
+            高い品質要件を持つ日本のモノづくり企業を緊密につなぐための存在です。
+          </p>
+          <p class="text-slate-300 text-[14px] leading-[1.9] font-light">
+            価格・品質・納期、あらゆる調達ニーズに対して最適な答えを導き出すために、
+            株式会社寿メタルはこれからも世界を駆け巡り、最も信頼できる金属部品調達ソリューションを提供し続けます。
+          </p>
+          <div class="pt-2 glass rounded-xl p-5 inline-block">
+            <p class="text-[11px] text-slate-400 tracking-widest mb-1">代表取締役</p>
+            <p class="text-2xl font-bold text-white tracking-wider">石橋 敏寿</p>
+            <p class="text-[11px] font-medium tracking-[0.2em] mt-1 font-inter" style="color: #e8b84b;">ISHIBASHI TOSHIHISA</p>
+          </div>
+        </div>
+
+        <!-- 会社概要テーブル -->
+        <div class="lg:col-span-7 reveal-right">
+          <div class="rounded-2xl overflow-hidden"
+               style="background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(16px);">
+            <table class="company-table w-full text-left text-[14px] text-slate-300 border-collapse">
+              <tbody>
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.07);">
+                  <th class="py-5 px-6 w-[30%] text-slate-400 font-medium align-top text-[13px] tracking-wide">会社名</th>
+                  <td class="py-5 px-6 font-semibold text-white">株式会社寿メタル</td>
+                </tr>
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.07);">
+                  <th class="py-5 px-6 text-slate-400 font-medium align-top text-[13px] tracking-wide">事業内容</th>
+                  <td class="py-5 px-6 leading-[1.9] text-slate-300">
+                    金属加工部品の輸入代理業<br>
+                    海外サプライヤーの開拓・開拓代行<br>
+                    金属製品の設計・品質管理コンサルティング
+                  </td>
+                </tr>
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.07);">
+                  <th class="py-5 px-6 text-slate-400 font-medium align-top text-[13px] tracking-wide">代表者</th>
+                  <td class="py-5 px-6 font-medium text-white">代表取締役　石橋 敏寿</td>
+                </tr>
+                <tr>
+                  <th class="py-5 px-6 text-slate-400 font-medium align-top text-[13px] tracking-wide">所在地</th>
+                  <td class="py-5 px-6 leading-[1.9] text-slate-300">
+                    〒211-0037<br>
+                    神奈川県川崎市中原区井田三舞町14-33 202
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       フッター
+  ============================================================ -->
+  <footer style="background: #040810; border-top: 1px solid rgba(255,255,255,0.05);">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14">
+
+      <div class="flex flex-col md:flex-row justify-between items-start gap-10 mb-10">
+
+        <!-- ブランド -->
+        <div class="space-y-4">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-lg flex items-center justify-center"
+                 style="background: linear-gradient(135deg, #c9922a, #e8b84b);">
+              <span class="font-black text-white text-base font-inter">K</span>
+            </div>
+            <div>
+              <span class="text-[15px] font-bold tracking-wider text-white block leading-none">株式会社寿メタル</span>
+              <span class="text-[8px] text-slate-500 tracking-[0.2em] block mt-1 uppercase font-inter">KOTOBUKI METAL CO., LTD.</span>
+            </div>
+          </div>
+          <p class="text-slate-500 text-[12px] leading-relaxed max-w-[240px]">
+            金属部品輸入のスペシャリストとして、日本のモノづくりを支えます。
+          </p>
+        </div>
+
+        <!-- ナビゲーション -->
+        <div>
+          <p class="text-[10px] font-bold tracking-[0.25em] uppercase text-slate-500 mb-4">NAVIGATION</p>
+          <div class="grid grid-cols-2 gap-x-12 gap-y-2">
+            <a href="#hero"     class="text-[13px] text-slate-400 hover:text-white transition-colors">トップ</a>
+            <a href="#about"    class="text-[13px] text-slate-400 hover:text-white transition-colors">私たちの強み</a>
+            <a href="#products" class="text-[13px] text-slate-400 hover:text-white transition-colors">取扱製品</a>
+            <a href="#process"  class="text-[13px] text-slate-400 hover:text-white transition-colors">調達プロセス</a>
+            <a href="#company"  class="text-[13px] text-slate-400 hover:text-white transition-colors">会社概要</a>
+          </div>
+        </div>
+
+        <!-- 所在地 -->
+        <div>
+          <p class="text-[10px] font-bold tracking-[0.25em] uppercase text-slate-500 mb-4">ADDRESS</p>
+          <p class="text-[13px] text-slate-400 leading-[1.9]">
+            〒211-0037<br>
+            神奈川県川崎市中原区<br>
+            井田三舞町14-33 202
+          </p>
+        </div>
+
+      </div>
+
+      <!-- ゴールドライン -->
+      <div class="gold-line opacity-20 mb-8"></div>
+
+      <!-- コピーライト -->
+      <div class="flex flex-col sm:flex-row justify-between items-center gap-3 text-[12px] text-slate-600">
+        <p>&copy; 2026 KOTOBUKI METAL CO., LTD. All Rights Reserved.</p>
+        <p class="text-slate-700">Designed with precision. Built for trust.</p>
+      </div>
+
+    </div>
+  </footer>
+
+
+  <!-- ============================================================
+       JavaScript
+  ============================================================ -->
+  <script>
+    // ============================================================
+    // モバイルメニュー
+    // ============================================================
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu    = document.getElementById('mobile-menu');
+    const hamburgerIcon = document.getElementById('hamburger-icon');
+    const closeIcon     = document.getElementById('close-icon');
+
+    mobileMenuBtn.addEventListener('click', () => {
+      const isOpen = !mobileMenu.classList.contains('hidden');
+      mobileMenu.classList.toggle('hidden');
+      hamburgerIcon.classList.toggle('hidden', !isOpen);
+      closeIcon.classList.toggle('hidden', isOpen);
+    });
+
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+        hamburgerIcon.classList.remove('hidden');
+        closeIcon.classList.add('hidden');
+      });
+    });
+
+    // ============================================================
+    // ヘッダースクロール変化
+    // ============================================================
+    const header = document.getElementById('main-header');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 60) {
+        header.classList.add('header-scrolled');
+      } else {
+        header.classList.remove('header-scrolled');
+      }
+    }, { passive: true });
+
+    // ============================================================
+    // スクロールアニメーション（Intersection Observer）
+    // ============================================================
+    document.addEventListener('DOMContentLoaded', () => {
+      const options = { root: null, rootMargin: '0px', threshold: 0.12 };
+
+      const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+            obs.unobserve(entry.target);
+          }
+        });
+      }, options);
+
+      document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => {
+        observer.observe(el);
+      });
+    });
+
+    // ============================================================
+    // ヒーローパーティクル（Canvas）
+    // ============================================================
+    (function() {
+      const canvas = document.getElementById('hero-canvas');
+      const ctx    = canvas.getContext('2d');
+      let particles = [];
+      let animId;
+
+      function resize() {
+        canvas.width  = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+      }
+
+      function createParticles() {
+        particles = [];
+        const count = Math.floor((canvas.width * canvas.height) / 14000);
+        for (let i = 0; i < count; i++) {
+          particles.push({
+            x:     Math.random() * canvas.width,
+            y:     Math.random() * canvas.height,
+            r:     Math.random() * 1.4 + 0.3,
+            vx:    (Math.random() - 0.5) * 0.25,
+            vy:    (Math.random() - 0.5) * 0.25,
+            alpha: Math.random() * 0.5 + 0.15,
+            color: Math.random() > 0.6 ? '#c9922a' : '#3b9edd',
+          });
+        }
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // 接続線
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const dx   = particles[i].x - particles[j].x;
+            const dy   = particles[i].y - particles[j].y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 110) {
+              ctx.beginPath();
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.strokeStyle = `rgba(255,255,255,${0.04 * (1 - dist / 110)})`;
+              ctx.lineWidth   = 0.5;
+              ctx.stroke();
+            }
+          }
+        }
+
+        // パーティクル
+        particles.forEach(p => {
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fillStyle = p.color + Math.round(p.alpha * 255).toString(16).padStart(2, '0');
+          ctx.fill();
+
+          p.x += p.vx;
+          p.y += p.vy;
+          if (p.x < 0 || p.x > canvas.width)  p.vx *= -1;
+          if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+        });
+
+        animId = requestAnimationFrame(draw);
+      }
+
+      const ro = new ResizeObserver(() => {
+        resize();
+        createParticles();
+      });
+      ro.observe(canvas.parentElement);
+
+      resize();
+      createParticles();
+      draw();
+    })();
+  </script>
+
+</body>
+</html>
